@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- This file was auto-generated from WSDL --><!-- by the Apache Axis2 version: 1.6.2  Built on : Apr 17, 2012 (05:33:49 IST) --><serviceGroup>
+    <service name="statisticsws" scope="application">
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="ws.statistics.definitions.StatisticswsMessageReceiverInOut"/>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-only" class="ws.statistics.definitions.StatisticswsMessageReceiverInOnly"/>
+        </messageReceivers>
+        <parameter name="ServiceClass">ws.statistics.core.StatisticsAdapter</parameter>
+        <parameter name="useOriginalwsdl">true</parameter>
+        <parameter name="modifyUserWSDLPortAddress">true</parameter>
+        <operation name="calculateDistribution" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://statistics.ws/definitions">
+            <actionMapping>http://statistics.ws/definitions/calculateDistribution</actionMapping>
+            <outputActionMapping>http://statistics.ws/definitions/statisticsws/calculateDistributionResponse</outputActionMapping>
+        </operation>
+        <operation name="calculateDeviation" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://statistics.ws/definitions">
+            <actionMapping>http://statistics.ws/definitions/calculateDeviation</actionMapping>
+            <outputActionMapping>http://statistics.ws/definitions/statisticsws/calculateDeviationResponse</outputActionMapping>
+        </operation>
+        <operation name="calculateAverage" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://statistics.ws/definitions">
+            <actionMapping>http://statistics.ws/definitions/calculateAverage</actionMapping>
+            <outputActionMapping>http://statistics.ws/definitions/statisticsws/calculateAverageResponse</outputActionMapping>
+        </operation>
+        <operation name="createSpace" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://statistics.ws/definitions">
+            <actionMapping>http://statistics.ws/definitions/createSpace</actionMapping>
+            <outputActionMapping>http://statistics.ws/definitions/statisticsws/createSpaceResponse</outputActionMapping>
+        </operation>
+        <operation name="addSample" mep="http://www.w3.org/ns/wsdl/in-only" namespace="http://statistics.ws/definitions">
+            <actionMapping>http://statistics.ws/definitions/addSample</actionMapping>
+        </operation>
+    </service>
+</serviceGroup>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://taitum.ws/definitions" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="taitumws" targetNamespace="http://taitum.ws/definitions" xmlns:xsd1="http://taitum.ws/schemas">
+    <wsdl:types>
+    	<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    		targetNamespace="http://taitum.ws/definitions" xmlns:td="http://taitum.ws/schemas">
+    		<xsd:import schemaLocation="data.xsd" namespace="http://taitum.ws/schemas"></xsd:import>
+    	   	<xsd:element name="TaitumException" type="xsd:string"></xsd:element>
+            </xsd:schema>
+    		</wsdl:types>
+    
+    
+  <wsdl:message name="publication">
+				    <wsdl:part name="ad" type="xsd1:ad">
+				    	<wsdl:documentation>Represents a home's publication to search or sale</wsdl:documentation></wsdl:part>
+				    <wsdl:part name="adType" type="xsd1:adType"></wsdl:part>
+  </wsdl:message>
+  
+
+  <wsdl:message name="ads">
+			  	<wsdl:part name="ads" type="xsd1:ads">
+			  		<wsdl:documentation>List of publications, it means a list of ad for search or sale.</wsdl:documentation></wsdl:part>
+  </wsdl:message>
+
+  <wsdl:message name="report">
+  					<wsdl:part name="report" type="xsd1:report">
+  						<wsdl:documentation></wsdl:documentation></wsdl:part>
+  </wsdl:message>
+  
+  <wsdl:message name="unssuportedFilter">
+  					<wsdl:part name="exception" element="tns:TaitumException">
+  									<wsdl:documentation> Indicates invalid data filter.</wsdl:documentation>
+  					</wsdl:part>
+  </wsdl:message>
+   
+  <wsdl:message name="void"/> 
+  
+  <wsdl:portType name="taitumws">
+		    
+		    <wsdl:operation name="publish">
+						      	<wsdl:documentation>Upload to server an ad for search or sale. When that ad matches, the server sent an email to the interested</wsdl:documentation>
+						      	<wsdl:input message="tns:publication"/>
+		    </wsdl:operation>
+			
+			 <wsdl:operation name="search">
+						      	<wsdl:documentation>Search for and retrieve ads that match criteria. ie: the lowest price of $, proximity, street or city location exact match ... The server is able to implement any combination of those criteria (are not currently available combined queries)</wsdl:documentation>
+						      	<wsdl:input message="tns:publication"/>
+						      	<wsdl:output message="tns:ads"></wsdl:output>
+						        <wsdl:fault name="fault" message="tns:unssuportedFilter"></wsdl:fault>
+		    </wsdl:operation>
+			
+			  
+		    <wsdl:operation name="getAds">
+						    	<wsdl:documentation>Retrieve all ads for rent or sale actually availables. </wsdl:documentation>
+						    	<wsdl:input message="tns:void"/>
+						    	<wsdl:output message="tns:ads"></wsdl:output>
+		    </wsdl:operation>
+		  
+		   
+	  	     <wsdl:operation name="getReport">
+						    	<wsdl:documentation>Build a statistical report on the ads that verify certain properties. This is useful for studying relationships between user preferences, location, price patterns, leads, etc..
+								Throws an exception when requested by invalid data filter.</wsdl:documentation>
+						    	<wsdl:input message="tns:publication"></wsdl:input>
+						    	<wsdl:output message="tns:report"></wsdl:output>
+						        <wsdl:fault name="fault" message="tns:unssuportedFilter"></wsdl:fault>
+			 </wsdl:operation>
+ 
+ 
+  </wsdl:portType>
+  
+  <wsdl:binding name="taitum" type="tns:taitumws">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    
+				    <wsdl:operation name="publish">
+								 <soap:operation soapAction="http://taitum.ws/definitions/publish"/>
+								      <wsdl:input>
+								        		<soap:body namespace="http://taitum.ws/definitions" use="literal"/>
+								      </wsdl:input>
+						        
+				  </wsdl:operation>
+				
+				
+				    <wsdl:operation name="search">
+								 <soap:operation soapAction="http://taitum.ws/definitions/search"/>
+									      <wsdl:input>
+									        		<soap:body namespace="http://taitum.ws/definitions" use="literal"/>
+									      </wsdl:input>
+									      <wsdl:output>
+									       			 <soap:body namespace="http://taitum.ws/definitions" use="literal"/>
+									      </wsdl:output>
+									      <wsdl:fault name="fault">
+										       			<soap:fault name="fault" use="literal"/>
+									      </wsdl:fault>
+
+				   </wsdl:operation>
+				
+				
+				  <wsdl:operation name="getAds">
+								 <soap:operation soapAction="http://taitum.ws/definitions/getOffers"/>
+								      <wsdl:input>
+								        	<soap:body namespace="http://taitum.ws/definitions" use="literal"/>
+								      </wsdl:input>
+								      <wsdl:output>
+								       		 <soap:body namespace="http://taitum.ws/definitions" use="literal"/>
+								      </wsdl:output>
+				   </wsdl:operation>
+				
+				  
+				    <wsdl:operation name="getReport">
+						 <soap:operation soapAction="http://taitum.ws/definitions/getReport"/>
+										      <wsdl:input>
+										       			<soap:body namespace="http://taitum.ws/definitions" use="literal"/>
+										      </wsdl:input>
+										      <wsdl:output>
+										       			<soap:body namespace="http://taitum.ws/definitions" use="literal"/>
+										      </wsdl:output>
+										      <wsdl:fault name="fault">
+										       			<soap:fault name="fault" use="literal"/>
+										      </wsdl:fault>
+					  </wsdl:operation>
+					  
+	
+</wsdl:binding>
+
+  <wsdl:service name="taitumws">
+    			<wsdl:documentation>Taitum WSregisters or publishes on property searches, Both by price, area, proximity to an address, etc (using geocoding and reverse geocoding). When something of interest,its notifies by email. Also you can extract reports on the search preferences (preferred areas, prices, correlations, etc..) to draw inferences.</wsdl:documentation>
+    			<wsdl:port binding="tns:taitum" name="taitumws">
+	      						<soap:address location="http://localhost:8880/taitumws/"/>
+    			</wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="statisticsws" targetNamespace="http://statistics.ws/definitions" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://statistics.ws/definitions" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://statistics.ws/definitions" xmlns:sd="http://statistics.ws/schemas">
+    	<xsd:import namespace="http://statistics.ws/schemas" schemaLocation="data.xsd"/>
+    	
+    	<xsd:element name="getAverage" type="tns:spaceNumber">  	                          </xsd:element>
+ 		<xsd:element name="getDeviation" type="tns:spaceNumber">	                          </xsd:element>
+	   	<xsd:element name="getDistribution" type="tns:spaceNumber">                           </xsd:element>
+    	<xsd:element name="createSpaceResponse" type="tns:spaceNumber">	                      </xsd:element>
+        <xsd:element name="indicatorResponse" type="tns:indicatorValue">                      </xsd:element>
+    
+    	<xsd:element name="addSample" type="tns:sample">                                       </xsd:element>
+    	<xsd:element name="createSpace" type="tns:spaceDescription">	</xsd:element>
+    	<xsd:element name="calculateDistributionResponse" type="tns:distributionResult">	</xsd:element>
+    
+
+
+    	<xsd:complexType name="spaceNumber">
+    		<xsd:sequence>
+    					<xsd:element maxOccurs="1" minOccurs="1" name="spaceId" type="xsd:int"/>
+    		</xsd:sequence>
+    	</xsd:complexType>
+
+
+    	<xsd:complexType name="indicatorValue">
+    		<xsd:sequence>
+    					<xsd:element maxOccurs="1" minOccurs="1" name="indicatorValue" type="xsd:float"/>
+    		</xsd:sequence>
+    	</xsd:complexType>
+  
+	<xsd:complexType name="distributionResult">
+    		<xsd:sequence>
+    					<xsd:element maxOccurs="1" minOccurs="1" name="probabilityDistribution" type="sd:Distribution"/>
+    		</xsd:sequence>
+    	</xsd:complexType>
+    
+    	   
+    	<xsd:complexType name="spaceDescription">
+    		<xsd:sequence>
+    					<xsd:element maxOccurs="1" minOccurs="1" name="description" type="xsd:string"/>
+    		</xsd:sequence>
+    	</xsd:complexType>
+    
+    	<xsd:complexType name="sample">
+    		<xsd:sequence>
+    					<xsd:element maxOccurs="1" minOccurs="1" name="value" type="xsd:int"/>
+    					<xsd:element maxOccurs="1" minOccurs="1" name="spaceId" type="xsd:int"/>
+    		</xsd:sequence>
+    	</xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="getAverage">
+    <wsdl:part name="spaceid" element="tns:getAverage">
+<wsdl:documentation>A space on which calculates an indicator</wsdl:documentation>
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDeviation">
+    <wsdl:part name="spaceNumber" element="tns:getDeviation">
+<wsdl:documentation>A space on which calculates an indicator</wsdl:documentation>
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sample">
+    <wsdl:part name="sample" element="tns:addSample">
+<wsdl:documentation>A experiment sample and its space id</wsdl:documentation>
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="spaceNumber">
+    <wsdl:part name="spaceNumber" element="tns:createSpaceResponse">
+<wsdl:documentation>Space identification number</wsdl:documentation>
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="calculateDistributionResponse">
+    <wsdl:part name="probabilityDistr" element="tns:calculateDistributionResponse">
+<wsdl:documentation/>
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDistribution">
+    <wsdl:part name="spaceNumber" element="tns:getDistribution">
+<wsdl:documentation>A space on which calculates an indicator</wsdl:documentation>
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="indicatorResponse">
+    <wsdl:part name="indicatorValue" element="tns:indicatorResponse">
+<wsdl:documentation/>
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="description">
+    <wsdl:part name="description" element="tns:createSpace">
+<wsdl:documentation>Description about the random experiment</wsdl:documentation>
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="statisticsws">
+    <wsdl:operation name="createSpace">
+<wsdl:documentation>Creates a muetral space.Returns an space id</wsdl:documentation>
+      <wsdl:input message="tns:description">
+    </wsdl:input>
+      <wsdl:output message="tns:spaceNumber">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="calculateAverage">
+<wsdl:documentation>Computes the average or expected value of the probability distribution corresponding to the indicated sample space. </wsdl:documentation>
+      <wsdl:input name="getAverage" message="tns:getAverage">
+    </wsdl:input>
+      <wsdl:output message="tns:indicatorResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addSample">
+<wsdl:documentation>Stores a value in the muestral spaces.The operation follows the one-way pattern.
+									    		</wsdl:documentation>
+      <wsdl:input name="sample" message="tns:sample">
+    </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="calculateDeviation">
+<wsdl:documentation>Calculates the distribution's variablity</wsdl:documentation>
+      <wsdl:input name="getDeviation" message="tns:getDeviation">
+    </wsdl:input>
+      <wsdl:output message="tns:indicatorResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="calculateDistribution">
+<wsdl:documentation>Calculates the probability distribution of a sample space indicated in the input argument, 
+										    	that is, a sequence of samples and their overall frequency.
+										    	</wsdl:documentation>
+      <wsdl:input name="getDistribution" message="tns:getDistribution">
+    </wsdl:input>
+      <wsdl:output message="tns:calculateDistributionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="statistics" type="tns:statisticsws">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="calculateAverage">
+      <soap:operation soapAction="http://statistics.ws/definitions/calculateAverage"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="calculateDeviation">
+      <soap:operation soapAction="http://statistics.ws/definitions/calculateDeviation"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addSample">
+      <soap:operation soapAction="http://statistics.ws/definitions/addSample"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="calculateDistribution">
+      <soap:operation soapAction="http://statistics.ws/definitions/calculateDistribution"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createSpace">
+      <soap:operation soapAction="http://statistics.ws/definitions/createSpace"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="statisticsws">
+<wsdl:documentation>
+  			Web Statistics Service provides calculations of statistical indicators such as mean, deviation, sample distribution. It also allows 
+   			creates and muestral spaces maangement.
+			</wsdl:documentation>
+    <wsdl:port name="statisticsws" binding="tns:statistics">
+      <soap:address location="http://localhost:8080/statisticsws/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

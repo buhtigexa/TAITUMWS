@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://geocoder.ws/definitions" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="geocoderws" targetNamespace="http://geocoder.ws/definitions" xmlns:xsd1="http://geocoder.ws/schemas">
+    <wsdl:types>
+    	<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    		targetNamespace="http://geocoder.ws/definitions" xmlns:gd="http://geocoder.ws/schemas">
+    		<xsd:import schemaLocation="data.xsd" namespace="http://geocoder.ws/schemas"></xsd:import>
+    	</xsd:schema>
+    	<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    		<xsd:import namespace="http://geocoder.ws/schemas"
+    			schemaLocation="data.xsd">
+    		</xsd:import></xsd:schema></wsdl:types>
+   
+   
+    <wsdl:message name="address">
+ 		   <wsdl:part name="address" type="xsd1:address">
+    					<wsdl:documentation>Full address: street, height, city, etc..</wsdl:documentation></wsdl:part>
+  			</wsdl:message>
+  
+  <wsdl:message name="coordinate">
+    	<wsdl:part name="coordinate" type="xsd1:coordinate">
+    					<wsdl:documentation>Geographical coordinate: latitude, longitude</wsdl:documentation></wsdl:part>
+  		</wsdl:message>
+  		
+  <wsdl:message name="coordinates">
+ 			  	<wsdl:part name="coordinateSrc" type="xsd1:coordinate"></wsdl:part>
+  				<wsdl:part name="coordinateDst" type="xsd1:coordinate"></wsdl:part>
+  </wsdl:message>
+  
+
+  <wsdl:message name="distance">
+     				<wsdl:part name="distance" type="xsd1:distance">
+     				<wsdl:documentation>unsigned value to indicate distance between coordinates
+</wsdl:documentation>
+     				</wsdl:part>
+   </wsdl:message>			
+  
+  
+  <wsdl:portType name="geocoderws">
+			    <wsdl:operation name="getCoordinate">
+						      <wsdl:documentation>Calculate geographical coordinates of the address of a location (street, city, etc.)</wsdl:documentation>
+						        <wsdl:input message="tns:address"/>
+						        <wsdl:output message="tns:coordinate"/>
+			    </wsdl:operation>
+			    <wsdl:operation name="getDistance">
+					    	  <wsdl:documentation>Calculate the distance between two points or locations.</wsdl:documentation>
+					    	  <wsdl:input message="tns:coordinates"></wsdl:input>
+					    	   <wsdl:output message="tns:distance"></wsdl:output>
+			    </wsdl:operation>
+			    <wsdl:operation name="getAddress">
+				    	   <wsdl:documentation>Reverse Geocoding: get the address format: street, high, city, state and country, from its geographical coordinates.</wsdl:documentation>
+				    	   <wsdl:input message="tns:coordinate"></wsdl:input>
+				    	   <wsdl:output message="tns:address"></wsdl:output>
+			    </wsdl:operation>
+  </wsdl:portType>
+  
+  
+  <wsdl:binding name="geocoder" type="tns:geocoderws">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+	    <wsdl:operation name="getCoordinate">
+				      <soap:operation soapAction="http://geocoder.ws/definitions/getCoordinate"/>
+				      <wsdl:input>
+				      			  <soap:body namespace="http://geocoder.ws/definitions" use="literal"/>
+				      </wsdl:input>
+				      <wsdl:output>
+				        	  	 <soap:body namespace="http://geocoder.ws/definitions" use="literal"/>
+				      </wsdl:output>
+	    </wsdl:operation>
+ 
+  <wsdl:operation name="getDistance">
+			      <soap:operation soapAction="http://geocoder.ws/definitions/getDistance"/>
+			      <wsdl:input>
+			        		<soap:body namespace="http://geocoder.ws/definitions" use="literal"/>
+			      </wsdl:input>
+			      <wsdl:output>
+					        <soap:body namespace="http://geocoder.ws/definitions" use="literal"/>
+			      </wsdl:output>
+    </wsdl:operation>
+ 
+ 
+  <wsdl:operation name="getAddress">
+			      <soap:operation soapAction="http://geocoder.ws/definitions/getAddress"/>
+			      <wsdl:input>
+			      			  <soap:body namespace="http://geocoder.ws/definitions" use="literal"/>
+			      </wsdl:input>
+			      <wsdl:output>
+			       			   <soap:body namespace="http://geocoder.ws/definitions" use="literal"/>
+			      </wsdl:output>
+			    </wsdl:operation>
+  </wsdl:binding>
+ 
+  <wsdl:service name="geocoderws">
+		    <wsdl:port binding="tns:geocoder" name="geocoderws">
+					      <soap:address location="http://localhost:8080/geocoderws/"/>
+		    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

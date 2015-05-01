@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://taitum.ws/schemas" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:td="http://taitum.ws/schemas">
+
+
+
+    <complexType name="ad">
+
+    	<annotation>
+    		<documentation>
+    			Represents a home's publication to search or sale. It is
+    			indicates the location address, price, responsible
+    			contact addresses, etc..
+    		</documentation>
+    	</annotation>
+    	<sequence>
+    		<element name="address" type="td:address" maxOccurs="1"
+    			minOccurs="1">
+    		</element>
+    		<element name="contact" type="string" maxOccurs="1"
+    			minOccurs="1">
+    		</element>
+    	</sequence>
+    	<attribute name="price" type="int" default="0"></attribute>
+    	<attribute name="priceVariance" type="int" default="100"></attribute>
+    	<attribute name="squareDistance" type="int" default="10"></attribute>
+    	<attribute name="rooms" type="int" default="3"></attribute>
+    </complexType>
+
+    <complexType name="address">
+        <annotation><documentation>A location address.</documentation></annotation>
+        <attribute name="street" type="string" default="General Pinto"></attribute>
+    	<attribute name="city" type="string" default="Tandil"></attribute>
+    	<attribute name="state" type="string" default="Buenos Aires"></attribute>
+    	<attribute name="country" type="string" default="Argentina"></attribute>
+    	<attribute name="high" default="399" type="int"></attribute>
+    </complexType>
+
+
+
+	 <complexType name="eventDescription">
+        <annotation>
+        		<documentation>A event description as string ( sample of that experiment) and its frequency. In this context it means a property and how many times appears.</documentation>
+        </annotation>
+        <sequence>
+	 			<element name="description" type="string" maxOccurs="1" minOccurs="0"></element>
+	 	</sequence>
+	 			<attribute name="probability" type="float" default="0"></attribute>
+	 </complexType>
+
+	 <complexType name="report">
+        <annotation>
+        	<documentation>A statistical report about all ads that matches a criteria.</documentation></annotation>
+        <sequence>
+		 		<element name="events" type="td:eventDescription" maxOccurs="unbounded" minOccurs="1"></element>
+	 	</sequence>
+			 	<attribute name="average" type="float" default="0"></attribute>
+			 	<attribute name="variance" type="float" default="0"></attribute>
+	 </complexType>
+
+	 <complexType name="ads">
+        <annotation><documentation>List of publications, it means a list of ad for search or sale.</documentation></annotation>
+        <sequence>
+         		<element name="ad" type="td:ad" maxOccurs="unbounded" minOccurs="0"></element>
+	 	</sequence>
+	 </complexType>
+
+
+
+
+
+
+	 <complexType name="adType">
+        <annotation>
+        	<documentation>A string to indicate the purpose of the ad.It's useful for server's dispatch methods</documentation></annotation>
+        <attribute name="type">
+	 		<simpleType>
+	 			<restriction base="string">
+	 				<enumeration value="offer"></enumeration>
+	 				<enumeration value="distance"></enumeration>
+	 				<enumeration value="price"></enumeration>
+	 				<enumeration value="address"></enumeration>
+	 			</restriction>
+	 		</simpleType>
+	 	</attribute>
+	 </complexType>
+</schema>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gd="http://geocoder.ws/schemas" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://geocoder.ws/schemas">
+    <complexType name="address">
+        <annotation>
+            <documentation>A location address in format: street,high,city,state and country.</documentation>
+        </annotation>
+        <attribute default="General Pinto" name="street" type="string"/>
+        <attribute default="Tandil" name="city" type="string"/>
+        <attribute default="Buenos Aires" name="state" type="string"/>
+        <attribute default="Argentina" name="country" type="string"/>
+        <attribute default="399" name="high" type="int"/>
+    </complexType>
+    <complexType name="coordinate">
+        <annotation>
+            <documentation>Geographical coordinates: latitude, longitude.
+</documentation>
+        </annotation>
+        <attribute default="-38.020933" name="latitude" type="double"/>
+        <attribute default="-57.560017" name="longtitude" type="double"/>
+    </complexType>
+    <complexType name="distance">
+        <annotation>
+            <documentation>Distance between two points
+</documentation>
+        </annotation>
+        <attribute name="value" type="double"/>
+    </complexType>
+</schema>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:sd="http://statistics.ws/schemas" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://statistics.ws/schemas">
+    <complexType name="Event">
+        <annotation>
+            <documentation>An experiment's sample. This data type consists of its id value and probability.</documentation>
+        </annotation>
+        <attribute name="value" type="int"/>
+        <attribute name="probability" type="float"/>
+    </complexType>
+    <complexType name="Distribution">
+        <annotation>
+            <documentation>Represents a probability distribution of a sample space. This is a string description value and its frequency of occurrence by the total.</documentation>
+        </annotation>
+        <sequence>
+            <element maxOccurs="unbounded" name="event" type="sd:Event"/>
+        </sequence>
+    </complexType>
+    <complexType name="Sample">
+        <annotation>
+            <documentation>An experiment's sample.</documentation>
+        </annotation>
+        <attribute name="spaceId" type="int"/>
+        <attribute name="value" type="int"/>
+    </complexType>
+</schema>

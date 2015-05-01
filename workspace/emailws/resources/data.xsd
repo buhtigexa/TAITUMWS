@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ed="http://email.ws/schemas" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://email.ws/schemas">
+    <complexType name="emails">
+        <annotation>
+            <documentation>List of emails that verify a condition to any of its data.</documentation>
+        </annotation>
+        <sequence>
+            <element maxOccurs="unbounded" minOccurs="0" name="email" type="ed:email"/>
+        </sequence>
+    </complexType>
+    <complexType name="criteria">
+        <annotation>
+            <documentation>.This data type is useful as a filter, for comparison against email's metadata.</documentation>
+        </annotation>
+        <attribute default="subject" name="metadata" type="string"/>
+        <attribute default="ieee" name="expectedValue" type="string"/>
+    </complexType>
+    <complexType name="email">
+        <annotation>
+            <documentation>An email data type</documentation>
+        </annotation>
+        <sequence>
+            <element name="body" type="string"/>
+            <element maxOccurs="unbounded" name="recipient" type="string"/>
+        </sequence>
+        <attribute default="false" name="isSent" type="boolean"/>
+        <attribute default="Good news!" name="subject" type="string"/>
+    </complexType>
+    <simpleType name="emailAddress">
+        <annotation>
+            <documentation>Email address format</documentation>
+        </annotation>
+        <restriction base="string">
+            <pattern value=".+(@)([a-z]+(.)[a-z]+)+"/>
+        </restriction>
+    </simpleType>
+</schema>

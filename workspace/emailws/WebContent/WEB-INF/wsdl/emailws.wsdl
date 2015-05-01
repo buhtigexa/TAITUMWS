@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://email.ws./definitions" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="emailws" targetNamespace="http://email.ws./definitions">
+  <wsdl:documentation></wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://email.ws./definitions" xmlns:ed="http://email.ws/schemas">
+    	<xsd:import schemaLocation="data.xsd" namespace="http://email.ws/schemas"></xsd:import>
+    	
+    	
+    	<xsd:element name="sendEmail">
+                <xsd:annotation>
+                	<xsd:documentation>Email sender method</xsd:documentation></xsd:annotation>
+                <xsd:complexType>
+		    			<xsd:sequence>
+			    				 <xsd:element name="data" type="ed:email"/>
+		    			</xsd:sequence>
+	    		</xsd:complexType>
+    	</xsd:element>
+    	
+    	<xsd:element name="sendEmailResponse">
+                <xsd:annotation>
+                	<xsd:documentation>Email sender response method</xsd:documentation></xsd:annotation>
+                <xsd:complexType>
+		    			<xsd:sequence>
+			    				<xsd:element name="isSent" type="xsd:boolean" />
+		    			</xsd:sequence>
+	    		</xsd:complexType>
+    	</xsd:element>
+    	
+    	<xsd:element name="getEmails">
+                <xsd:annotation>
+                	<xsd:documentation>Email filter method</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+		    			<xsd:sequence>
+			    				<xsd:element name="filter" type="ed:criteria"></xsd:element>
+		    			</xsd:sequence>
+	    		</xsd:complexType>
+    	</xsd:element>
+    	
+    	<xsd:element name="getEmailsResponse">
+                <xsd:annotation>
+                	<xsd:documentation>Emails relevant list</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+	    			<xsd:sequence>
+		    				<xsd:element name="relevants" type="ed:emails"></xsd:element>
+	    			</xsd:sequence>
+	    		</xsd:complexType>
+    	</xsd:element>
+  
+    </xsd:schema>
+  </wsdl:types>
+  
+  <wsdl:message name="email">
+  					  <wsdl:part element="tns:sendEmail" name="email">
+  					  	<wsdl:documentation>Email data typ to send</wsdl:documentation></wsdl:part>
+  </wsdl:message>
+  
+  <wsdl:message name="isSent">
+    					<wsdl:part element="tns:sendEmailResponse" name="isSent">
+    						<wsdl:documentation>Email delivery status</wsdl:documentation></wsdl:part>
+  </wsdl:message>
+  
+  <wsdl:message name="emailsFilter">
+  						<wsdl:part name="filter" element="tns:getEmails">
+  							<wsdl:documentation>A email's metadata condition . This is useful as a filter, for comparison against email's metadata.</wsdl:documentation></wsdl:part>
+  </wsdl:message>
+  
+  <wsdl:message name="emails">
+  						<wsdl:part name="emails" element="tns:getEmailsResponse">
+  							<wsdl:documentation>A List of emails that verify a condition to any of its data.</wsdl:documentation></wsdl:part>
+  </wsdl:message>
+  
+  
+  <wsdl:portType name="emailws">
+   
+						    <wsdl:operation name="sendEmail">
+													      <wsdl:documentation>Send an email; issues the shipping status.</wsdl:documentation>
+													      <wsdl:input message="tns:email"/>
+													      <wsdl:output message="tns:isSent"/>
+						    </wsdl:operation>
+						    <wsdl:operation name="getEmails">
+												    	<wsdl:documentation>Gets a list of emails that check certain values ​​over their metadata. </wsdl:documentation>
+												    	<wsdl:input message="tns:emailsFilter"></wsdl:input>
+												    	<wsdl:output message="tns:emails"></wsdl:output>
+						    </wsdl:operation>
+  </wsdl:portType>
+  
+  <wsdl:binding name="email" type="tns:emailws">
+	    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+  
+    	 <wsdl:operation name="sendEmail">
+			      <soap:operation soapAction="http://email.ws./definitions/sendEmail"/>
+					      <wsdl:input >
+								        <soap:body use="literal"/>
+			    		  </wsdl:input>
+			      		<wsdl:output>
+							        <soap:body use="literal"/>
+			      		</wsdl:output>
+    </wsdl:operation>
+    
+    
+    <wsdl:operation name="getEmails">
+			      <soap:operation soapAction="http://email.ws./definitions/getEmails"/>
+			      <wsdl:input>
+					    	    <soap:body use="literal"/>
+			      </wsdl:input>
+			      <wsdl:output>
+					        	<soap:body use="literal"/>
+			      </wsdl:output>
+    </wsdl:operation>
+    
+    
+  </wsdl:binding>
+  
+  <wsdl:service name="emailws">
+    	<wsdl:documentation>Email Ws allows to send emails from a gmail account. In addition, you can perform the lookup/filtering on sent emails, according to the different data fields email.</wsdl:documentation>
+    	<wsdl:port binding="tns:email" name="emailws">
+      				<soap:address location="http://localhost:8080/emailws/"/>
+    	</wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
